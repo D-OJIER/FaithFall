@@ -1,0 +1,78 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "faithfall",
+  "post": {
+    "dir": "dist/client",
+    "entrypoints": {
+      "default": {
+        "entry": "splash.html",
+        "height": "tall"
+      },
+      "game": {
+        "entry": "game.html"
+      }
+    }
+  },
+  "server": {
+    "dir": "dist/server",
+    "entry": "index.cjs"
+  },
+  "permissions": {
+    "redis": true,
+    "reddit": {
+      "enable": true,
+      "scope": "user"
+    }
+  },
+  "menu": {
+    "items": [
+      {
+        "label": "Faithfall: create game post",
+        "description": "Create the world (if needed) and post the current Chronicle",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/post-create"
+      },
+      {
+        "label": "Faithfall: leap now",
+        "description": "Run today's leap immediately (for testing)",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/leap-now"
+      },
+      {
+        "label": "Faithfall: begin Corruption season",
+        "description": "Start a new hidden Corruption season",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/start-season"
+      },
+      {
+        "label": "Faithfall: reset world",
+        "description": "Erase the world and seed new history",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/reset-world"
+      }
+    ]
+  },
+  "forms": {
+    "resetForm": "/internal/form/reset-confirm"
+  },
+  "triggers": {
+    "onAppInstall": "/internal/triggers/on-app-install",
+    "onAppUpgrade": "/internal/triggers/on-app-upgrade"
+  },
+  "scheduler": {
+    "tasks": {
+      "daily-leap": {
+        "endpoint": "/internal/cron/daily-leap",
+        "cron": "0 14 * * *"
+      }
+    }
+  },
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build"
+  }
+}

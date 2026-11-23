@@ -1,0 +1,696 @@
+# Faithfall — Game Specification v1.1
+
+Nov 18, 2026 · @Alfred Reijo Philomin
+
+## 1. Overview
+
+**Faithfall: every Redditor is an Ascendant.** Each day, history leaps forward by years or centuries. You guide your people, leave relics behind, and when your civilization falls, you hope someone digs you back up.
+
+It is a persistent, shared-world daily game for Reddit's Game of the Day 2026 hackathon. It runs on Devvit Web and the deadline is **Dec 8, 2026, 6:00pm PST (Dec 9, 7:30am IST)**. A daily session takes about 2 minutes.
+
+### Design pillars
+
+1. **Ascendants are immortal; civilizations are not.** No player is ever eliminated.
+2. **Ascendants influence, never control.** Actions start processes and never guarantee results.
+3. **Belief earns Trust.** Trust is the power you spend; it comes from how many followers you have and how strongly they believe.
+4. **Time leaps unpredictably but for everyone at once.** One leap a day, the same for the whole world.
+5. **The world remembers.** Artifacts, ruins and bloodlines outlive their Ascendants.
+6. **The world is alive without you.** Old Ones (bot Ascendants), wild peoples and the seasonal Corruption keep history moving.
+
+### How it scores on each judging criterion
+
+| Criterion (25% each) | What earns it |
+| --- | --- |
+| Delightful UX | A 90-second Cradle tutorial that pays off instantly, one map screen, cards instead of menus, a map that ages visibly |
+| Polish | Small, finished scope, one consistent art style, mobile-first, no dead buttons |
+| Reddit-y | A daily Chronicle post, comments that work as diplomacy, upvoted scripture, a shared fight against the Evil One |
+| Daily Content | A new leap and Chronicle every day, ruins to dig, a prophecy to make, Corruption seasons |
+
+## 2. Core daily loop
+
+One session is five steps and about 2 minutes. On a player's very first day, the Cradle tutorial (section 3) comes first. Every step either finishes something or gives the player a reason to come back tomorrow.
+
+1. **Read the Chronicle** (20s). See how far history leapt ("80 years passed"), what happened to your people, and what happened in the world.
+2. **Play cards** (40s). Draw 3 divine action cards and play up to 2 using Trust. Their results show up in later leaps.
+3. **Dig ruins** (30s). Use 3 digs a day on ruin tiles to uncover fragments, artifacts or relics of forgotten Ascendants.
+4. **Make a prophecy** (10s). Guess tomorrow's leap size or whether a rival will survive. A correct guess pays Trust.
+5. **Share your myth** (20s). The end card shows a one-line myth about your Ascendant plus the year, with "Return tomorrow to see what history remembers." One tap posts it as a comment.
+
+**Once a day, every day:** at **14:00 UTC (7:30pm IST / 6:00am PST)** the server queues all actions, resolves one leap for the whole world, and publishes a new Chronicle post.
+
+**Returning players** get extra things to do on some days: give orders to a champion, help fight the Corruption, or write scripture. None of these ever stretch a session past about 3 minutes.
+
+## 3. Ascendants
+
+Each Redditor gets one Ascendant per world. Becoming an Ascendant takes about 40 seconds, most of it spent watching the Starry Draw.
+
+### Onboarding
+
+1. **The Starry Draw.** Seven sealed species cards flip over one by one. Each card rolls a rarity (section 4) and then picks a species that no player in this world has yet, or the least-taken one once all have been used. **The sign-up draw always succeeds:** all 7 cards reveal a species, and none can come up Silent. Failed draws exist only in the daily Seek the Lost. All 7 flip in about 3 seconds, and a tap skips the animation. You get one free redraw of the whole hand.
+2. **Choose your people.** Each card shows the species' lifespan, speciality and starting conditions. A rarer card means a harder start.
+3. **Pick a domain** from 5 illustrated cards.
+4. **Accept or reroll a generated name** ("Vaelor, Keeper of the Drowned Bell").
+5. **Enter the Cradle,** your private starting land, and play the tutorial (below).
+
+### The Cradle (private tutorial world)
+
+Every new Ascendant starts in **the Cradle**: a private pocket of 7 regions that only they can see, shaped to their species' home terrain (a sky-island for Duskwings, a sunken grotto for Tidefolk, a mountain hollow for Stonebound). It runs on the same simulation engine as the shared world, but **leaps happen instantly when you act**, not once a day. Those leaps never touch the shared world's clock.
+
+The tutorial takes about 90 seconds. It can't be failed, and each beat teaches one thing and pays off on the spot:
+
+1. **Bless:** play Bless Harvest. A 5-year leap happens straight away; Food rises and the village grows.
+2. **Dig:** dig the ruin beside you. It always holds a relic of a fallen Old One, with its inscription, so the game's best moment happens in the first minute.
+3. **Whisper:** Whisper to the wild village next door. A 25-year leap shows them converting, and your land grows.
+4. **Omen:** a small patch of Corruption creeps in. Play Ward and watch the spread stop.
+5. **Ascend:** your people leave the Cradle for the shared world.
+
+**Landing:** some regions of the shared world are **reserved landing regions**, locked for incoming Ascendants. When you Ascend you choose one of 2–3 open landing regions that suit your species. Common and Uncommon landings sit away from strong empires; Rare and Epic landings are harsher (section 4). For your first 3 days, no one (player or Old One) can Smite or raid your lands.
+
+**What comes with you:** your species, your people, the relic you dug up and your first scripture line. Your Cradle doesn't vanish. It becomes your **first ruin** in the shared world (section 7), waiting for someone to discover it.
+
+The Cradle is played once. Returning players go straight to the shared world.
+
+### Seek the Lost (a daily draw)
+
+Once a day, an Ascendant can spend **15 base Trust** to call out to a lost people. This is how you get access to more species after joining.
+
+| Result | Chance |
+| --- | --- |
+| No one answered (failed) | 50% |
+| A Common people | 25% |
+| An Uncommon people | 14% |
+| A Rare people | 8% |
+| An Epic people | 3% |
+
+A people that answers appears as a wild region near your borders, or on the edge of the Dark Continent. You still have to Whisper to them to convert them, and they keep their own species. After 5 failures in a row, the next Seek is guaranteed to find an Uncommon people or rarer. **Seeking is paid with Trust only, never real money.**
+
+### Domains
+
+A domain decides which cards you draw more often and gives one passive bonus. No domain is stronger overall.
+
+| Domain | Draws more of | Passive |
+| --- | --- | --- |
+| War | Smite, Teach Might | +10% Might growth |
+| Harvest | Bless Harvest, Reveal Spring | +10% Food |
+| Death | Whisper, Cleanse | Digs near ruins find relics more often |
+| Sea | Inspire, Whisper | Can expand across water regions |
+| Wisdom | Teach, Ward | Faster payoff on Teach cards |
+
+### Ascendant attributes
+
+| Attribute | Meaning |
+| --- | --- |
+| Name, epithet, domain, sigil | Identity, shown on the map and the share card |
+| Trust | Spendable power. Start at 50, no cap |
+| Remembrance | Points earned when people find your artifacts. Powers your return from fading |
+| Scripture | One holy line you write, up to 80 characters |
+| Status | Active, Fading or Returned |
+| Streak | Days in a row played (tracked with Devvit Journeys) |
+
+### Fading and return
+
+When your civilization's People drop below 1k, it collapses. Its cities become ruins and you **fade**:
+
+- Trust income drops to 5 a day. You keep the Trust you already have.
+- You draw 1 card a day, and it can only be Whisper or Sign.
+- You can still dig, make prophecies and write scripture.
+
+**Return:** once your Remembrance reaches 5, or the moment you make a Homecoming (section 7), you can Whisper to a wild people or an untended ruin region. If the Whisper succeeds, that region becomes your new home with 3k People, and the Chronicle announces it: *"The forgotten Ascendant Vaelor has returned."*
+
+## 4. World and civilizations
+
+The world is one hand-shaped hex map of **88 regions**: 64 known regions plus the 24-region Dark Continent, which starts in fog. Every civilization is described by four stats, so the whole state fits on one phone screen.
+
+### Regions
+
+| Field | Values |
+| --- | --- |
+| Terrain | Plains, Forest, Hills, Desert, Coast, Water, Swamp, Tundra, Mountain (only Stonebound, Titanborn and Golemkind can settle it) |
+| Owner | An Ascendant (player or Old One), Wild, Ruin or Wasteland |
+| Corruption | 0–100 (section 10) |
+| Ruin depth | 0–5 layers of buried history (section 7) |
+
+When a later season needs more space, add a second map instead of making this one bigger.
+
+### The four civilization stats
+
+| Stat | Range | What drives it |
+| --- | --- | --- |
+| People | in thousands | Grows when Food has a surplus, falls in famine, war and Corruption |
+| Food | 0–100 stock | Terrain plus blessings, minus what People eat |
+| Faith | Devoted / Faithful / Doubtful split | Divine actions, prosperity, rival conversion, Corruption |
+| Might | 0–100 | Teach cards and champions. Decides expansion and defence |
+
+### How civilizations behave (rule-based, every 5-year tick)
+
+- **Grow** when Food is above 60: People +2%.
+- **Starve** when Food is below 20: People −4%, and Doubtful followers rise.
+- **Expand** into a neighbouring Wild or Ruin region when People is above 8k per region owned and Might is above 30.
+- **Raid** a weaker neighbour (their Might is at least 20 below ours) with a 10% chance. Raids produce war ruins.
+- **Lose faith:** if Doubtful followers go above 50%, a faction splits off and the region goes Wild.
+
+All randomness comes from a seeded generator (seed = world id + leap number + a secret server salt, so leaps can't be predicted), so a replayed leap always gives the same result.
+
+### Wild peoples
+
+About a third of regions start as independent peoples with no Ascendant. Any Ascendant can Whisper to them to begin conversion: contact, then acceptance, then the region joins once more than 50% of its people believe. Several Ascendants can compete for the same wild region. Each region's Tradition (0–3) makes conversion slower.
+
+### Species and rarity
+
+There are **21 species in 5 rarity tiers**. Players can draw 18 of them; the 3 Legendary species belong only to the Old Ones. **Rarer doesn't mean stronger.** A rarer species gets a sharper speciality but starts in a harder place and grows more slowly, and every Epic species has a Common species that counters it. Species aren't unique: the same species can live in many parts of the world, under many Ascendants, and in wild regions.
+
+| Rarity | Species | Chance per Starry Draw card | Starting conditions |
+| --- | --- | --- | --- |
+| Common | 6 | 55% | 3k People, a fertile home region |
+| Uncommon | 5 | 28% | 3k People, an ordinary region |
+| Rare | 4 | 13% | 3k People, Food cap −20%, one hostile neighbour |
+| Epic | 3 | 4% | 3k People, Food cap −35%, on the edge of the Dark Continent or next to a Devourer |
+| Legendary | 3 | 0% (Old Ones only) | Lairs in the Dark Continent |
+
+### Common
+
+| Species | Lifespan | Home | Learns by | Builds | Speciality | Weakness |
+| --- | --- | --- | --- | --- | --- | --- |
+| Humans | 70 yrs | Plains | Trial and error: Teach pays off in 25 yrs | Walled cities, temples (last 3 ruin layers) | Adaptable: no terrain penalty, expand 20% more often | Fickle: Doubtful +1% per tick |
+| Tidefolk | 90 yrs | Coast, Water | Contact: +5 to any stat where a neighbour is higher; Teach −30% cost | Stilt towns, ships, bells (3 layers) | Expand across water; +5 Food per tick for each civilization they border | Inland Food −30% |
+| Emberkin | 40 yrs | Desert, Hills | Doing: Teach pays off next leap, fades after 50 yrs | Forges, weapons (3 layers) | Might grows 2×; raids succeed more often | Famine hits twice as hard |
+| Duskwings (moth-folk) | 30 yrs | Any, incl. Ruins | Dreams: Teach +50% if 30%+ of followers are Devoted | Sky-shrines, dream-masks (2 layers) | Whisper costs 2 base Trust; conversion +50%; can settle ruins | Might can't go above 40; very fickle |
+| Burrowkin | 60 yrs | Hills, Plains | Apprenticeship: Teach is never lost while People > 5k | Tunnel granaries, clay idols (4 layers) | Famine can't cut People more than 2% a tick | Might −20%; can't expand across water |
+| Fangkin (wolf-folk) | 50 yrs | Forest, Tundra | The hunt: Teach for Might counts double, Teach for Food counts half | Totems, bone weapons (2 layers) | Pack: +25% Might next to any other Fangkin region | Doubtful +2% a tick when Food < 40 |
+
+### Uncommon
+
+| Species | Lifespan | Home | Learns by | Builds | Speciality | Weakness |
+| --- | --- | --- | --- | --- | --- | --- |
+| Stonebound | 300 yrs | Hills, Mountains | Inheritance: Teach takes 50 yrs, double bonus, never lost | Carved halls, runic weapons (never decay) | +10 Might when defending; can settle mountains | Growth ×0.5; slow to convert |
+| Mirefolk (lizard-folk) | 80 yrs | Swamp | Shedding: every Great Age, all Teach bonuses +10% | Reed temples, bone idols (2 layers) | Smite only half as effective on them; swamp regions can't be raided | Food −20% outside swamps |
+| Hoofkin (centaur-like) | 60 yrs | Plains | Roaming: Teach applies to every region they own | Standing stones, banners (3 layers) | Can expand into 2 regions at once | No temples: Trust income −15% |
+| Gnarlings (goblin-like) | 25 yrs | Hills, Ruins | Theft: a successful raid copies one of the victim's Teach bonuses | Scrap forts, crude idols (1 layer) | Growth ×2.0 | A civilization over 6 regions splinters |
+| Frostkin | 150 yrs | Tundra | Winter-telling: Teach takes 50 yrs, +25% | Ice halls (1 layer), runestones (4 layers) | Corruption spreads into their regions 50% slower | Growth ×0.7 |
+
+### Rare
+
+| Species | Lifespan | Home | Learns by | Builds | Speciality | Weakness |
+| --- | --- | --- | --- | --- | --- | --- |
+| Sylvan | 400 yrs | Forest | Song: Teach takes 100 yrs; knowledge survives collapse as scripture artifacts | Living groves, +1 Trust a day each (2 layers) | Start 50% Devoted; belief barely drifts | Growth ×0.4; farmed Food −20% |
+| Naga | 500 yrs | Coast, Swamp | Coiled memory: Teach costs double but stacks with no limit | Serpent temples, pearl relics (4 layers) | Trust income +25%; immune to Corruption below 50 | Growth ×0.3; can't hold more than 4 regions |
+| Golemkind | 1,000 yrs | Mountains, Hills | Inscription: Teach does nothing; each artifact they dig gives +10 Might or +10 Food (stats cap at 100) | They are monuments: ruins become dormant golems (3 layers) | Eat no Food | People grow only through Bless (×0.2) |
+| Mycelids (fungus-folk) | 120 yrs | Forest, Swamp, Ruins | Absorption: +5 to a stat for each ruin layer they settle on | Spore towers (2 layers) | Spread into neighbouring ruins on their own | Drought and fire Smites do double damage |
+
+### Epic
+
+| Species | Lifespan | Home | Learns by | Builds | Speciality | Weakness | Countered by (×1.5) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Titanborn (giants) | 800 yrs | Mountains | Dreaming ages: Teach takes 100 yrs, ×3 | Colossi (never decay; Great Relic chance 2×) | Might per person ×3 | Growth ×0.1; starve below Food 50 | Fangkin |
+| Ashborne (phoenix-kin) | 100 yrs | Desert | Rebirth: keep half their Teach bonuses after collapse | Pyres, flame-crowns (2 layers) | Once a season, rise again at 50% People instead of fading | Food −40% in coast or water regions | Tidefolk |
+| Shadeborn (wraiths) | Undying | Ruins, Wasteland | From the dead: +1 Teach bonus each time a nearby civilization collapses | Crypts, death-masks (5 layers) | Eat no Food; grow from nearby deaths | Cleanse and Saints do 2× to them; no growth without deaths | Duskwings |
+
+### Legendary (Old Ones only)
+
+| Species | Behaviour | Leaves behind |
+| --- | --- | --- |
+| Seraphs (angels) | Judges: Smites whoever Smote most last leap, blesses the weakest | Halo relics |
+| Infernals (demons) | Offers pacts: +50 Trust now, and your champion gains Cursed. Sometimes sides with the Corruption | Pact-seals |
+| Wyrms (dragons) | Sleeps in a lair; wakes on a Great Age leap and razes one region | Hoard relics, the richest digs in the game |
+
+There is never more than one of each Legendary in a world. Players can't draw them or convert them. Section 9 covers how they behave.
+
+### Why rare doesn't win by default
+
+- **Numbers matter.** Raid and defence strength = Might × √People (in thousands) × terrain × counter bonus. A large Common empire beats a small Epic one.
+- **Harder starts.** Epic and Rare species start with the same 3k People, but in poorer land and closer to danger (see the rarity table).
+- **Counters.** Every Epic has a Common counter that gets ×1.5 strength against it.
+
+### Why lifespan matters
+
+- **Generations:** a champion lives as long as their species. A 100-year leap moves a Gnarling bloodline on 4 generations, while a Sylvan hero lives through it.
+- **Memory:** each tick, belief drifts toward Doubtful by 1% × (60 / lifespan), and never by more than 8 points in one leap, Fickle included. Short-lived peoples forget their Ascendant quickly but also take up new faiths quickly.
+- **Pacing:** short-lived species rise and fall within days. Long-lived species last for weeks and leave the deepest ruins.
+
+### The Dark Continent
+
+A separate landmass of **24 regions** sits in fog from day one, so the full map is 88 regions. It holds the lairs of the Legendary Old Ones, wild Rare and Epic peoples, and ruins that start 3–5 layers deep. The Corruption is twice as likely to begin here.
+
+- **Exploring:** the Explore card reveals one fogged region next to known land. A champion on Expedition reveals 2 a leap, and Duskwings reveal one extra.
+- **Risk:** 20% of expeditions are lost, and a revealed Wyrm lair may wake early.
+- **Naming rights:** the first Ascendant to reveal a region names it, up to 24 characters and profanity-filtered. That name stays on the map for everyone.
+
+## 5. Trust economy and action cards
+
+Trust is earned from your followers, so a larger and more devoted people gives more power. Every cost and reward also grows with your civilization, so Trust stays meaningful at any size and a big empire can't simply outspend everyone. All numbers in this section are starting values for playtesting.
+
+### Trust income (paid once per daily leap)
+
+```latex
+\text{Trust}_{day} = 3 + 1.5 \times \text{People}_{k} \times (3\,d + f)
+```
+
+Here d and f are the shares of Devoted and Faithful followers. Doubtful followers add nothing, and the flat 3 is only a floor. A new people of 3k with 30% Devoted and 50% Faithful earns 3 + 1.5 × 3 × 1.4 = **9.3 Trust** a day; at 30k People it earns **66**. A fading Ascendant earns a flat 3. Trust has no cap. Each region beyond your first 4 costs 1 base Trust a day in upkeep.
+
+Other Trust sources: a correct prophecy (11–80 Trust, by the odds), finding an artifact (+5), one of your own artifacts being found (+5 Trust and +1 Remembrance), and damaging the Evil One (Slayer bonus).
+
+### Costs and rewards grow with you
+
+Every cost and reward in this spec is a **base** amount. The real amount is the base multiplied by your **Weight**:
+
+```latex
+\text{Weight} = \max\left(1,\ \sqrt{\frac{\text{People}_{k}}{3}}\right) \times \min\left(2,\ 1 + 0.02 \times \text{generations}\right)
+```
+
+- **Size:** the square root of your People (in thousands) divided by 3, never below 1. A 3k people has size 1, 12k has size 2, and 30k about 3.2.
+- **Age:** +2% for every generation (25 years) your civilization has lived, up to ×2. As time passes, everything you do costs more.
+
+Income grows in a straight line with followers, while costs grow only with the square root of size. So a bigger, more devoted people is stronger, but not overwhelmingly so. For example, 30k People after 20 generations have a Weight of about 4.4. They earn 66 Trust a day, which buys about 15 base Trust of actions, against 9.3 for a newcomer.
+
+**What scales with Weight:**
+
+- **Costs:** cards (table below), commissioning artifacts, champion and Saint orders, Envoy messages, Seek the Lost and upkeep.
+- **Rewards:** dig finds, Shrines, Homecoming, prophecy payouts, the Seeker reward and Destroy. A find feels worth the same to every player.
+- **Pledges against the Evil One count in base Trust** (Trust pledged ÷ Weight), so a small people's pledge hits as hard as a large one's.
+
+### Action cards
+
+Each day you draw 3 cards (weighted by your domain) and play up to 2. Cards you don't play are discarded. Every card **starts a process** that resolves over the next leap or leaps.
+
+| Card | Base cost (× Weight) | Effect | Shows up |
+| --- | --- | --- | --- |
+| Bless Harvest | 6 | Food +25 over the next 3 ticks | Next leap |
+| Reveal Spring | 5 | Region's Food cap +15 permanently | Next leap |
+| Inspire Leader | 10 | +15% chance to expand, Doubtful −5% | 1–2 leaps |
+| Teach | 10 | Might +20 (or Food yield +10% with Harvest), builds up over 25 years | Long leaps pay more |
+| Whisper | 4 | Begin or advance conversion of a wild region; usable while fading | 1–3 leaps |
+| Sign | 3 | Doubtful −3%; a fading Ascendant can use it to make one of their ruins glow on every map, so diggers find it | Next leap |
+| Smite | 15 | Target region: People −10%, Might −15; leaves war ruins. A second Smite on the same region in one leap does half | Next leap |
+| Ward | 8 | Blocks Corruption spreading into one region this leap | Next leap |
+| Cleanse | 12 | Corruption −30 in one region | Next leap |
+| Explore | 8 | Reveal one fogged Dark Continent region next to known land; 20% chance the expedition is lost | Next leap |
+| Commission | 15 | Your people build a named artifact of your species' kind (temple, idol, weapon or scripture), carved with your scripture line; Devoted +3%. It becomes a diggable relic if the region falls | Next leap |
+| Envoy | 2 | Send a message of up to 140 characters to another Ascendant. It arrives at the next leap and is written into both Books | Next leap |
+| Raise Chosen | 50 | Founds your bloodline (section 8); one time only | Immediately |
+
+**Spending Trust also builds belief:** every card you play on your own people turns 1% of Doubtful followers into Faithful. Smiting a region near your own lowers your followers' faith by 2%, because fear works differently from devotion.
+
+## 6. Time leaps
+
+Each day the world leaps forward by **5 to 300 years**, drawn from a fixed distribution. Most leaps are short: a leap of 100 years or more comes about once a week, and a Great Age about once every 3 weeks. The simulation runs one tick per 5 years, up to 60 ticks.
+
+| Leap | Chance | Ticks | What it typically does |
+| --- | --- | --- | --- |
+| 5 years | 30% | 1 | Card effects land; small shifts in Food and Faith |
+| 25 years | 35% | 5 | One generation passes; Teach pays off; expansion and raids |
+| 50 years | 20% | 10 | Borders move; champions may die of old age; Corruption spreads 2–3 regions |
+| 100 years | 10% | 20 | Empires rise or fall; ruins form; bloodlines move on 2–4 generations |
+| 300 years | 5% | 60 | A new age: collapses, returns, ruins buried one layer deeper, Corruption surges |
+
+### Rules
+
+- **The leap size is announced first.** The Chronicle opens with it: "**A Great Age passes: 300 years.**"
+- **No more than 2 big leaps (100+ years) in any 7 days**, so the world never moves too fast to follow.
+- **During the Corruption's Spread phase leaps are capped at 50 years, and while the Evil One is out they are capped at 25 years**, so the final fight lasts several real days.
+- **Leap names** add flavour: 5 = *A Season*, 25 = *A Generation*, 50 = *An Era*, 100 = *An Age*, 300 = *A Great Age*.
+- **The Prophecy step** asks players to guess tomorrow's leap name. Payouts follow the odds (A Season 13 Trust, A Generation 11, An Era 20, An Age 40, A Great Age 80), so no single guess is always best.
+
+## 7. Ruins, digging and artifacts
+
+Ruins are where the world's history piles up, and digging is how players reach each other across time. When a player finds another Ascendant's artifact, both Ascendants gain from it.
+
+### How ruins form
+
+- A region becomes a Ruin when its civilization collapses, an Old One fades, a raid or Smite levels it, or the Corruption consumes it.
+- Every collapse adds **one ruin layer** (up to 5). Each layer holds the artifacts of the civilization that fell there.
+- A Great Age (300-year) leap buries every ruin one layer deeper. Deeper layers are rarer and worth more.
+
+### Digging (3 digs a day, on any visible ruin)
+
+| Result | Chance | Reward |
+| --- | --- | --- |
+| Dust | 45% | Nothing, but a short line of lore |
+| Fragment | 35% | +2 Trust |
+| Artifact | 17% | +5 Trust; added to your Reliquary; the creator Ascendant gains +5 Trust and +1 Remembrance |
+| Great Relic | 3% (Death domain 5%) | +15 Trust, a one-time power (below), and a Chronicle headline |
+
+When an artifact belongs to a player, they get a notification: *"Your Drowned Bell was unearthed by u/someone, 400 years after your fall."*
+
+### Artifacts
+
+| Field | Example |
+| --- | --- |
+| Kind | Temple, Idol, Weapon, Scripture, Relic |
+| Name | The Drowned Bell |
+| Creator Ascendant and civilization | Vaelor, the Tide-Folk of Ostra |
+| Created in year, condition | Year 412, Weathered |
+| Inscription | The creator Ascendant's scripture line, carved on it |
+
+Artifacts are created automatically: a temple after 50 years of strong faith, a weapon when a hero dies, scripture when a saint dies. **Great Relics** have a one-time power. *Shard of the Evil One* lowers a region's Corruption by 50. *Crown of a Fallen Empire* adds +3 Remembrance to the Ascendant who made it.
+
+### Ruin realms
+
+A ruin takes the shape of the species that built it, so ruins appear across five realms. Each realm changes who can reach it, and the map shows each one differently.
+
+| Realm | Built by | Who can dig it | On the map |
+| --- | --- | --- | --- |
+| Surface | Humans, Hoofkin, Emberkin, Fangkin, Gnarlings, Sylvan, Mycelids | Anyone who owns a neighbouring region | Cracked stone tiles |
+| Deep (underground) | Burrowkin, Stonebound, Golemkind, Shadeborn | Anyone, but each dig costs 2 digs unless you are a delving species (Burrowkin, Stonebound, Golemkind) | Sealed doors in the earth |
+| Peak (mountain) | Titanborn, Frostkin, Stonebound mountain halls | Owners of a neighbouring Hills or Mountain region, or a champion on Expedition | Broken spires on summits |
+| Sunken (sea) | Tidefolk, Naga, Mirefolk | Owners of a neighbouring Coast region, sea species (Tidefolk, Naga, Mirefolk) or the Sea domain | Drowned towers under the waves |
+| Sky | Duskwings, Ashborne, Seraphs | Hidden until revealed by Explore; flying species (Duskwings, Ashborne) see them at once | A faint shimmer in the clouds |
+
+### Discovering a ruin: Claim, Destroy or Leave
+
+When you dig an Artifact or Great Relic from a ruin, you have **discovered** it. You then make one choice for that ruin:
+
+| Choice | You get | The Ascendant who built it gets | Other effects |
+| --- | --- | --- | --- |
+| **Claim** | It becomes your Shrine: +2 Trust a day while you hold it (up to 3 Shrines) | +1 Remembrance a day while it stands, because their memory is kept alive | Another Ascendant can take your Shrine by conquering the region it stands in |
+| **Destroy** | +20 Trust once | That layer's artifacts turn to dust, but their followers' anger gives them +10 Trust once | Your Doubtful followers +3%; the Chronicle calls you *the Defiler* for 7 days; the Seraph Old One may punish you |
+| **Leave** | You keep the artifact you dug | +1 Remembrance (the usual reward) | The ruin stays open for others to find |
+
+### Homecoming
+
+Finding a ruin that **you built** is a Homecoming. That means your own fallen civilization, or the ruin your Cradle left behind. It pays **+25 Trust and +3 Remembrance**. If you are fading, you can **Return on the spot**, reclaiming that region with 3k People. The Chronicle marks it: *"After 600 years, Vaelor walked again among the halls of Ostra."*
+
+## 8. Bloodlines: heroes and saints
+
+Each Ascendant can found **one Chosen bloodline** for 50 base Trust, but only when at least 25% of their followers are Devoted. Champions are mortal, so the time leaps turn every bloodline into a family saga.
+
+### Two lines
+
+| Line | Strong at | Leaves behind at death |
+| --- | --- | --- |
+| Hero | Fighting Corruption, defending, conquest (Might +15 while alive) | A weapon artifact, e.g. *The Spear of Kael* |
+| Saint | Cleansing, conversion, faith (Doubtful −2% each leap) | A holy relic plus a scripture artifact |
+
+### Generations
+
+- **A champion lives for 40–70 years** of world time. A 100-year leap means the line moves on 2–4 generations in a single day.
+- **Each heir gets a generated name and number:** *Kael III, the Oathkeeper*.
+- **Heirs inherit one of the parent's traits.** There's a 30% chance of gaining a new trait, and a champion can hold at most 3.
+- **A line ends** if your civilization falls while the current champion has no heir. You can found a new line for 50 base Trust.
+
+### Traits (6 in v1)
+
+| Trait | Effect |
+| --- | --- |
+| Fireborn | +50% damage to the Evil One |
+| Oathkeeper | Your home region can't be raided |
+| Seer | Your prophecy pays double |
+| Ironblood | Lives 20 years longer |
+| Silver-Tongued | Whisper conversion is 2× faster |
+| Cursed | Picked up after spending 50+ years in a region with Corruption above 50. Each leap, a 15% chance to turn into a **Herald of the Evil One** |
+
+When a Cursed champion turns, they leave your bloodline and fight for the Corruption. A Saint's Cleanse can remove the Cursed trait before that happens.
+
+### Champion orders (one a day)
+
+- **Quest:** go to a corrupted region and fight, lowering Corruption or damaging the Evil One.
+- **Pilgrimage:** speed up conversion of a wild region.
+- **Defend:** guard your home, adding +20 Might against raids and Corruption. A fourth order, Expedition, sends the champion to reveal 2 Dark Continent regions a leap, with the same 20% risk of being lost.
+
+**Order costs grow with the line.** Orders cost base Trust × Weight: Quest 8, Pilgrimage 6, Defend 4, Expedition 8. A champion's power grows by 10% for every generation of their bloodline, and so does the cost of commanding them. An ancient line of Saints cleanses more Corruption and converts faster, but every order to them costs more.
+
+**Titles:** the champion who lands the final blow on the Evil One becomes *Slayer of \<name>*. The title shows on your share card and stays with the bloodline forever.
+
+## 9. Old Ones (bot Ascendants)
+
+Old Ones play by exactly the same rules and Trust budget as players. They keep the world lively when few players are around, and they step aside as more players join. They're rule-based and seeded (no AI model), and every bot is clearly marked with a sigil and an "Old One" label.
+
+### Personalities
+
+| Type | Domain | Behaviour | Typical fate |
+| --- | --- | --- | --- |
+| The Devourer | War | Expands fast and attacks the weakest neighbour | Falls early, leaving many ruins |
+| The Shepherd | Harvest | Grows slowly, blesses neighbours, defends small Ascendants | Long-lived ally |
+| The Hermit | Wisdom | Stays small and isolated, builds temples | Leaves the best artifacts |
+| The Trickster | Sea | Steals followers from whoever leads in Faith | Keeps the leaders in check |
+| The Pale One | Death | Grows when others collapse, digs relics, may side with the Corruption | Wildcard |
+
+Your team writes **12 Old Ones** by hand, each with a name, epithet, species, sigil and a scripture line, so they feel authored rather than generated.
+
+**Legendary Old Ones.** Besides the 12 ordinary Old Ones, each world has 3 Legendary Old Ones in the Dark Continent: a Seraph host, an Infernal court and a Wyrm (section 4). They never fade and can't be converted. They act on their own rules: the Seraph punishes whoever Smites most, the Infernals offer pacts, and the Wyrm wakes on Great Age leaps. They give players something larger than themselves to fear, bargain with or dig beneath. They don't count toward the 12-Ascendant minimum.
+
+### Decisions
+
+Each bot acts during step 2 of the leap (section 13). It draws a hand, then scores every card with its personality's weight table plus a few rules, for example "if Food < 30, play Bless Harvest" or "Smite whoever Smote me last."
+
+```ts
+for (const bot of bots) {
+  const hand = drawHand(bot, seed);
+  const pick = maxBy(hand, c => PERSONALITY[bot.type].score(c, world, bot.memory));
+  if (pick && bot.faith >= pick.cost) queueAction(bot, pick);
+}
+```
+
+**Memory:** each bot keeps a grudge or favour score (−10 to +10) for every Ascendant that has affected it. Grudges fade by 1 each leap. This is what produces Chronicle lines like *"Morrak remembers the drought Vaelor sent."*
+
+### Keeping the right number of Ascendants
+
+- **Target:** one world per subreddit, with no cap on players, so everyone shares one Chronicle and one Evil One. Old Ones keep at least 12 Ascendants active and fill empty land, not player seats. For every 12 new Ascendants, a new ring of 12 regions, including reserved landing regions, rises from the sea at the edge of the known map.
+- **Bots step aside:** when a player joins near a bot, that bot gets a 3-leap "Twilight." Its People fall by 30% each leap, then its regions become ruins full of its artifacts. Bots never simply disappear.
+- **Bots can return:** Remembrance works the same for bots, so a player digging up their relics can bring an Old One back.
+
+### Fairness
+
+- Bots are shown greyed out on the leaderboards and can never be ranked #1.
+- Bots never earn or spend more Trust than the formula allows.
+- No one, player or Old One, can Smite or raid an Ascendant in their first 3 days after leaving the Cradle.
+
+## 10. The Corruption (seasonal event)
+
+Each season lasts **8–10 real days** and follows four phases. Corruption takes root in a hidden place and spreads further with every leap, and nobody is told where until a player finds it. An Evil One emerges, and the whole subreddit wins or loses together. Then the next season starts somewhere else with a different Evil One.
+
+1. **Omens (days 1–2).** The Corruption takes root in a **secret place** chosen by the server. It might be a fogged Dark Continent region, a Deep, Sunken or Sky ruin, or under an ordinary region near the ruins of the *most forgotten Old One*. No one is told where. The Chronicle carries only vague omens (*"Somewhere, the rivers run black"*).
+2. **Spread (days 3–6).** Each tick, every region with Corruption above 40 has a 12% chance to spread +20 to each neighbour (at most 3 new regions per leap), so **bigger leaps spread it further**. Above 60 Corruption, a region loses 3% People and 3% Faith per tick. At 100 it falls, becomes Hollowed, and its people worship the Evil One. Until the source is found, owners of affected regions see only *"a sickness with no name"*: their losses, but not the cause or where it came from.
+3. **Emergence (days 7–8+).** Once 8 regions are Hollowed, or on day 7 at the latest, the Evil One wakes in a **hidden lair**. The Chronicle says only *"Something has awoken."* Its name, form, health and lair stay secret until someone finds it. Its attacks land on regions near the lair, and each attack is a clue. Leaps are capped at 25 years while it's awake.
+4. **Aftermath.** If players **win**, it shatters into Great Relics (*Shard of Vashtar*) that the top contributors receive. If players **lose**, after 3 days the Hollowed regions become a permanent Wasteland: deep ruins with dangerous but rare finds.
+
+### Hidden until discovered
+
+The Corruption and the Evil One are a **mystery to solve**. The world can feel their effects, but nobody learns where they are or what they are until a player finds them.
+
+**What stays secret:** where the Corruption started, how corrupted any region is (except your own symptoms), and the Evil One's name, form, health and lair.
+
+**The Omens panel:** every daily Chronicle post carries the day's omens, and they sharpen as the season goes on:
+
+| Season day | What the omen reveals | Example |
+| --- | --- | --- |
+| 1–2 | Only a mood | *"Somewhere, the rivers run black."* |
+| 3 | The realm or terrain | *"It sleeps beneath deep water."* |
+| 4 | A direction from the world's centre | *"In the far east, the tides have turned."* |
+| 5+ | A nearby landmark or named region | *"Within sight of the Spires of Kael."* |
+
+**Private clues:** an Ascendant whose region is touched by the sickness gets one extra clue that only they can see. Champions with the Seer trait and Ascendants of the Death domain receive each clue one day early. Players can share or hide what they know, so the comment thread becomes the hunt.
+
+**How it's discovered:** dig the ruin it hides in, Explore its fogged region, send a champion on Expedition or Quest into it, or Whisper to a Hollowed people, who reveal their master. A wrong guess costs only that action.
+
+**On discovery, everything is revealed to everyone:**
+
+- The Chronicle headline names the discoverer: *"u/someone found the heart of the Blight in the drowned towers of Ostra."*
+- The discoverer gets **+50 Trust** and the permanent title *Seeker of the Blight*, written into their Book.
+- The map shows every corrupted region, and Ward and Cleanse can target anywhere. Before discovery, players can only Ward and Cleanse regions of their own that show symptoms.
+- Finding the Evil One's lair is a **second discovery**. It reveals the Evil One's name and form, puts its health bar in the daily post and opens one-tap pledging.
+
+**Safety net:** if no one has found the lair by day 9, the Evil One reveals itself (*"It shows itself at last"*), with no Seeker reward, so every season still gets its final battle.
+
+**Kept on the server:** the hidden location and levels are never sent to players' devices. The game only receives omen text and facts that have been discovered, so nobody can find the secret by inspecting the game's data.
+
+### The Evil One
+
+| Property | v1 value |
+| --- | --- |
+| Health | 150 + 20 × active Ascendants (390 with 12, about 4 days of shared pledging) |
+| Damage sources | Trust pledged at its lair, counted in base Trust (Trust ÷ Weight), a Hero on Quest 40 (Fireborn ×1.5), Cleanse on its lair 25 |
+| Its attack each leap | Corruption +20 in 2 regions bordering the Hollowed area |
+| Grows from | +3 health per Hollowed region each leap |
+| Pool | 4 hand-written Evil Ones (e.g. *Vashtar, the Hunger Beneath*), rotated by season |
+
+### Counterplay
+
+Players fight it with **Ward** (stop spread), **Cleanse** (reduce Corruption), Hero quests, Saint cleansing, and spending Trust at the lair. Bots join in according to their personality: the Shepherd defends, the Devourer ignores it, and the Pale One may *feed* it.
+
+**The community bar:** once its lair has been found, the daily Chronicle post shows the Evil One's health bar and the top 5 contributors. Pledging Trust is one tap from the post, which gives the whole subreddit a shared goal.
+
+**For judging:** time the first season so that the hunt is on when judges arrive, with the Corruption spreading and the Omens panel filling up. Consider letting the source be discovered on Dec 7, so judges see both the mystery and the revealed map. The pinned post should open with a 3-line "story so far" recap.
+
+## 11. Reddit integration
+
+The game happens in the subreddit as much as in the post. The daily Chronicle post is the front page of the world, and its comments are the world's diplomacy.
+
+| Feature | How it works |
+| --- | --- |
+| Daily Chronicle post | After each leap the app automatically posts a new interactive post, titled e.g. *"Year 1,240: The Drought of Ash (An Era, 50 years)"*. Its preview shows the leap, 3 headlines and the Evil One's bar |
+| Comments as diplomacy | Alliances, threats and boasting happen in the thread. The game doesn't need a diplomacy system |
+| Scripture | Each Ascendant writes one line, up to 80 characters, filtered for profanity. Players upvote lines inside the game. Each day the top line is quoted in the Chronicle and carved onto that Ascendant's next artifact |
+| Prophecy | One guess a day (the leap name, or whether a named Ascendant survives). It resolves in the next Chronicle, pays by the odds (section 6), and keeps a prophecy streak |
+| Share card | The end-of-session image shows the Ascendant's sigil, year, one-line myth and Slayer title if any. **Post as comment** puts it in the daily thread |
+| Leaderboards | Most Remembered, Longest Bloodline, Oldest Surviving Relic, Most Devoted, Slayers. Bots appear greyed out |
+| Streaks | Daily play streak and prophecy streak, tracked with Devvit Journeys; a flame next to the Ascendant's name |
+| Return notifications | "Your relic was found" and "Your champion died" pull lapsed players back (if Devvit allows it, otherwise shown in the next session) |
+
+### The Library: Books and the Annals
+
+The world writes down its own history, and **anyone can read it**: players, lurkers and judges, even people who have never joined.
+
+- **A Book for every civilization** (*The Book of Ostra, a Tidefolk people*). The leap engine writes every event into it automatically: the founding, expansions, raids and wars, famines, conversions, champions born and dying, scripture lines, artifacts made, found, claimed or destroyed, Homecomings, and the fall. A new chapter begins with every Great Age.
+- **The Faithful:** each Book ends with a roll of honour for its people of great faith. Saints, Heroes, Slayers of the Evil One and the most devoted pledgers are named there, with how long they lived and what they did.
+- **The Annals of the World:** the history of the whole world, with one entry for every leap (each day's Chronicle bound in order). It also covers every Corruption season, Legendary Old One event and Dark Continent discovery, along with the names their discoverers gave them.
+- **Shelves by species:** the Library is arranged by species. Opening the Tidefolk shelf shows every Tidefolk civilization that ever existed, living and fallen, side by side.
+- **Sealed when a people falls:** when a civilization collapses, its Book gets a final chapter (*The Fall of Ostra*) and is sealed. It stays readable, and a copy is buried in its ruin as a Great Relic. Whoever digs it up is written into the Book as *Rediscovered by*, and for the Ascendant who built it, that counts as a Homecoming.
+- **Shareable:** every page has its own link, and each daily Chronicle post ends with *Read the full Annals*.
+
+**How it's built:** the leap engine already writes Chronicle lines in step 8 (section 13). Every line is also added to an append-only history log for its civilization and for the world (`book:{civ}` and `annals:{world}` in Redis). The Library screen only reads those logs, page by page, so the feature costs little to build.
+
+### Open questions to check against the Devvit docs
+
+- [ ] Can the app create a post on a schedule using the scheduler plus the Reddit API?
+- [ ] Can a comment be posted *as the user* with their consent, or only as the app account?
+- [ ] Which in-app notifications or messages are allowed by Devvit Rules?
+
+## 12. UI and visual identity
+
+The whole game lives on **one map screen** with sheets that slide over it, designed mobile-first at 375 px wide. The art style is **an illuminated manuscript map**: ink linework on parchment, gold leaf for anything divine, and the Corruption in creeping black-violet ink.
+
+### Screen layout
+
+| Area | Contents |
+| --- | --- |
+| Top bar | Year, today's leap badge (*An Era*), Trust, streak flame |
+| Map (centre) | Pan and zoom hex map, your territory outlined in gold, ruins as cracked tiles, Corruption as spreading ink |
+| Card tray (bottom) | 3 cards dealt face-up; drag a card onto a region to play it |
+| Chronicle sheet | Slides up first each day: the leap, 3 headlines, your own story |
+| Ascendant sheet | Tap your sigil: stats, bloodline, Reliquary, scripture |
+| End card | The share card plus "Return tomorrow" countdown |
+| Library | Shelves by species; open any civilization's Book or the Annals of the World; every page shareable |
+
+### Making it feel good
+
+- **Animate the leap:** a short ink-wash sweeps across the map, the year ticks up, and fallen cities crack into ruins.
+- **Make digging tactile:** tap, brush away dust, then reveal what's underneath (Dust, Fragment, Artifact or the gold glow of a Great Relic).
+- **Show history on the map:** older ruin layers look more faded, and Wastelands stay as dark scars.
+- **Every card shows** its cost, a one-line effect and *when* it lands ("next leap", "over a generation").
+
+### Style rules (to avoid looking AI-generated)
+
+- Hand-draw or commission a small set of assets: 7 terrain tiles, 10 card illustrations, 5 domain sigils, 21 species emblems (10 needed for P0), ruin tiles, plus the Evil One. Don't use AI-generated art.
+- Use one display typeface (a calligraphic serif) plus one body face. Use the palette ink, parchment, gold, and corruption violet, and nothing else.
+- No Reddit orange and no Snoo; the game should be recognisable as itself.
+
+### What players see, by day
+
+The game reveals itself gradually, so the first day is simple and the depth arrives over the first week. Nothing is cut: each part just appears when the player is ready for it.
+
+| Day | What becomes visible |
+| --- | --- |
+| Day 1 (Cradle and first shared day) | Trust, People, Food; cards Bless, Whisper, Ward, Explore; digging; prophecy; the Chronicle and the Library |
+| Day 2 | The belief split (Devoted, Faithful, Doubtful); Smite, Sign and Envoy; Claim, Destroy or Leave |
+| Days 3–4 | Might, raids, Teach, Inspire and Commission; Seek the Lost; leaderboards |
+| Day 5+ | Raise Chosen and bloodlines; ruin realms beyond Surface; Expeditions into the Dark Continent |
+| During a Corruption season | The Omens panel only. Full Corruption and Evil One details appear only after a player discovers them (section 10) |
+
+## 13. Technical architecture
+
+Only one daily server job changes the world. Player sessions only read state and queue actions, so thousands of Ascendants can share one world without conflicting writes.
+
+&#91;embedded content: Faithfall architecture · play path and daily leap\]
+
+The top row runs every time someone opens the post. The bottom row runs once a day and is the only thing that advances history.
+
+### Stack
+
+| Layer | Choice |
+| --- | --- |
+| Platform | Devvit Web, as an Interactive Post |
+| Client | React + TypeScript; hex map on HTML canvas (PixiJS only if it's needed for performance) |
+| Server | Devvit Web server endpoints, TypeScript |
+| Storage | Devvit Redis |
+| Daily leap | Devvit scheduler, cron job at 14:00 UTC |
+| Streaks and analytics | Devvit Journeys |
+| Shared code | One `sim/` package used by the server *and* the offline history seeder |
+
+### Core data models
+
+```ts
+type Domain = 'war' | 'harvest' | 'death' | 'sea' | 'wisdom';
+
+interface World   { id: string; kind: 'shared' | 'cradle'; ownerId?: string; leap: number; year: number; seed: string; seasonId?: string; }
+interface Ascendant { id: string; userId?: string; isBot: boolean; botType?: BotType;
+                    name: string; epithet: string; domain: Domain; trust: number;
+                    remembrance: number; status: 'active' | 'fading' | 'returned';
+                    scripture?: string; streak: number; memory?: Record<string, number>; }
+interface Region  { id: number; terrain: Terrain; owner: string | 'wild' | 'ruin' | 'waste';
+                    species: SpeciesId; people: number; food: number; might: number;
+                    belief: { devoted: number; faithful: number; doubtful: number };
+                    corruption: number; ruinRealm?: 'surface' | 'deep' | 'peak' | 'sunken' | 'sky'; ruinLayers: string[][]; }   // artifact ids per layer
+interface Artifact{ id: string; kind: ArtifactKind; name: string; ascendantId: string;
+                    yearMade: number; layer: number; foundBy?: string; claimedBy?: string; inscription?: string; }
+interface Champion{ id: string; ascendantId: string; line: 'hero' | 'saint'; name: string;
+                    generation: number; born: number; traits: Trait[]; order?: Order; }
+interface Action  { ascendantId: string; card: CardId; target?: number; leap: number; }
+interface Season  { id: string; phase: 'omens' | 'spread' | 'emergence' | 'aftermath';
+                    evilOneId: string; hp: number; contributors: Record<string, number>; }
+```
+
+Redis keys: `world:{id}` (hash), `ascendant:{id}`, `region:{world}:{n}`, `actions:{world}:{leap}` (list), `lock:leap:{world}:{leap}`, `chronicle:{world}:{leap}`.
+
+### Leap engine, in order
+
+1. **Lock:** `SET lock:leap:{world}:{n} NX`. If the lock exists or `world.leap` is already n, stop. This makes retries safe.
+2. **Roll the leap size** from the seed (world id + n), applying the caps in section 6.
+3. **Let bots choose actions** and add them to the queue.
+4. **Apply all queued actions**, which start processes.
+5. **For each 5-year tick:** resolve processes, then Food, then People, then the belief split, then expansion and raids, Corruption spread, champion ageing and heirs, and artifact creation.
+6. **Handle collapses and returns:** fallen cities become ruins, Ascendants fade or return.
+7. **Pay Trust income;** apply damage to the Evil One and its growth.
+8. **Write the Chronicle** from hand-written templates (no AI model), with 3 world headlines plus a personal line for each Ascendant.
+9. **Commit everything in one transaction,** including `world.leap = n`.
+10. **Publish the Chronicle post.**
+
+**Seeded history:** before launch, run the same engine offline for about 45 leaps (around 2,000 years) with bots only. Load the result as the starting world, so judges arrive to find existing ruins, fallen empires and buried relics.
+
+**Cradle worlds:** each Cradle is a tiny World with `kind: 'cradle'`, saved per player. Its leaps run on demand through the same engine, with no scheduler and no shared lock. It is deleted after Ascension, apart from the ruin it leaves in the shared world.
+
+## 14. Scope, timeline and submission
+
+Ship the P0 list, finished and polished, by Dec 5. Add P1 items only if P0 is fully done. Everything in P2 is roadmap: mention it in the submission and don't build it.
+
+### Priorities
+
+| Priority | Features |
+| --- | --- |
+| P0: must ship | Onboarding with the Starry Draw and the Cradle tutorial, Corruption season (hidden until discovered, with the Omens panel) + Evil One with the community bar, hex map, 4 stats, 10 species (all 6 Commons, 2 Uncommon, 1 Rare, 1 Epic), cards (except Raise Chosen), daily leap + scheduler, Chronicle templates and daily post, digging + artifacts with Claim, Destroy and Homecoming, fading and return, 12 Old Ones, share card, the Library (Books and Annals, read-only), mobile layout |
+| P1: the winning edge | The other 8 species, Legendary Old Ones, the Dark Continent + Explore, Seek the Lost, ruin realms (Deep, Peak, Sunken, Sky), bloodlines (2 lines, 6 traits), prophecy, scripture voting, leaderboards, Journeys streaks, leap animation |
+| P2: roadmap only | Diplomacy system, espionage, tech trees, multiple worlds, more Evil Ones, family trees, notifications beyond what's in-game |
+
+### Cut from the original concept
+
+The following are cut: the diplomacy, treaty, espionage and divine-war systems; tech trees and AI leaders; following each follower individually; 5 of the 10 domains; 5 separate screens; and leaps of 1 day or 1 week.
+
+### Timeline
+
+&#91;embedded content: Build timeline · 6 phases to the Dec 8 deadline\]
+
+The Corruption must be running when judges look. Start Season 1's Omens on **Dec 5**, so that by Dec 8 it is in Spread.
+
+| Phase | Delivers |
+| --- | --- |
+| Foundation | Devvit Web project, Redis schema, world generator, map rendering, Ascendant onboarding |
+| Simulation core | Tick rules, leap engine with lock + transaction, scheduler job, Chronicle templates |
+| Gameplay systems | Card hand and play, the Cradle, digging, artifacts, fading and return, Old Ones |
+| Bloodlines + Corruption | Champions, traits, orders; season phases, spread, Evil One health and pledges |
+| Art and polish | Final assets, leap and dig animations, share card, leaderboards, mobile pass, playtest balancing |
+| Seed + Season 1 | Offline 2,000-year seed, public demo subreddit, Season 1 started, bug fixes |
+
+### Submission checklist
+
+- [ ] App uploaded to developers.reddit.com (kept private; don't publish before the hackathon ends)
+- [ ] Public demo subreddit with a pinned post running the game, with a "story so far" recap at the top
+- [ ] Devpost entry: app listing link, demo post link, description, screenshots
+- [ ] Under-60-second video on YouTube showing a full daily session on mobile (optional, but do it)
+- [ ] Check against the Devvit Rules
+- [ ] Developer satisfaction survey (Feedback award)
+- [ ] Seeded world loaded and the scheduler confirmed firing for 3 days in a row before Dec 8
+
+### Open questions for the team
+
+- [ ] Who owns which area: simulation, client/map, art, or content (Old Ones, Evil Ones, Chronicle lines)?
+- [ ] Who draws the art, and by when?
+- [ ] What's the name of the demo subreddit (r/Faithfall, if available)?

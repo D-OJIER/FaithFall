@@ -1,0 +1,26 @@
+/* Faithfall palette and type. Change a colour here and every asset follows. */
+:root {
+  --parchment: #F3E9D2;
+  --parchment-shade: #E6D5B0;
+  --ink: #2B2118;
+  --ink-faded: #6B5A45;
+  --gold: #C9A227;
+  --gold-edge: #8C6D12;
+  --vermilion: #A8322D;
+  --verdigris: #4E7D6B;
+  --lapis: #2E4A7D;
+  --corruption: #4B1D52;
+  --corruption-bright: #8E3FA0;
+  --font-display: 'IM Fell English', 'Palatino Linotype', Georgia, serif;
+  --font-body: 'Alegreya', Georgia, serif;
+  /* rarity */
+  --rarity-common: var(--ink);
+  --rarity-uncommon: var(--verdigris);
+  --rarity-rare: var(--lapis);
+  --rarity-epic: var(--vermilion);
+  --rarity-legendary: var(--gold);
+}
+@font-face { font-family: 'IM Fell English'; src: url('fonts/im-fell-english-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IM Fell English'; src: url('fonts/im-fell-english-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Alegreya'; src: url('fonts/alegreya-variable.woff2') format('woff2'); font-weight: 400 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Alegreya'; src: url('fonts/alegreya-italic-variable.woff2') format('woff2'); font-weight: 400 900; font-style: italic; font-display: swap; }

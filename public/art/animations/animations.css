@@ -1,0 +1,32 @@
+/* Faithfall animations: CSS and SVG only. Both respect prefers-reduced-motion. */
+
+/* 1. Leap ink-wash: a wave of ink sweeps across the map (~1.2 s) while the year ticks up.
+   Markup:
+   <div class="ff-leap" style="--from: 1240; --to: 1290">
+     <img class="ff-leap-wash" src="animations/inkwash.svg" alt="">
+     <span class="ff-leap-year">Year </span>
+   </div> */
+@property --ff-year { syntax: '<integer>'; inherits: false; initial-value: 0; }
+.ff-leap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.ff-leap-wash {
+  position: absolute; top: -10%; height: 120%; width: 140%; left: 0;
+  animation: ff-leap-sweep 1.2s cubic-bezier(.6, 0, .4, 1) both;
+}
+.ff-leap-year {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--font-display); font-size: 40px; color: var(--parchment);
+  --ff-year: var(--from); counter-reset: ff-year var(--ff-year);
+  animation: ff-leap-count 1.2s steps(24, end) both, ff-leap-fade 1.6s ease both;
+}
+.ff-leap-year::after { content: counter(ff-year); }
+@keyframes ff-leap-sweep { from { transform: translateX(-100%); } to { transform: translateX(80%); } }
+@keyframes ff-leap-count { from { --ff-year: var(--from); } to { --ff-year: var(--to); } }
+@keyframes ff-leap-fade { 0% { opacity: 0; } 20%, 80% { opacity: 1; } 100% { opacity: 0; } }
+
+/* 2. Dig reveal: animations/dig-reveal.svg wipes dust with masked brush strokes on load.
+   Inline it (or use <object>) so its internal animation runs; restart by re-inserting the node. */
+
+@media (prefers-reduced-motion: reduce) {
+  .ff-leap-wash { animation: none; opacity: 0; }
+  .ff-leap-year { animation: none; --ff-year: var(--to); opacity: 1; }
+}
